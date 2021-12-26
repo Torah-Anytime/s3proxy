@@ -36,7 +36,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.Random;
 
@@ -131,6 +133,25 @@ public final class OverlayBlobStoreTest {
         Blob test = overlayBlobStore.getBlob(containerName, blobName);
         assertThat(test).isNotNull();
         assertThat(test.getMetadata().getName()).isEqualTo(blobName);
+    }
+
+    @Test
+    public void testLocalBlobShadowsUpstreamBlob() throws Exception {
+        Blob originalTest = overlayBlobStore.getBlob(containerName, blobName);
+        BlobBuilder blobBuilder = overlayBlobStore.blobBuilder(blobName).payload("testLocalBlobShadowsUpstreamBlob");
+        overlayBlobStore.putBlob(containerName, blobBuilder.build());
+        Blob newTest = overlayBlobStore.getBlob(containerName, blobName);
+        PageSet<? extends StorageMetadata> newBlobList = overlayBlobStore.list(containerName);
+
+        assertThat(originalTest.getMetadata().getLastModified()).isNotEqualTo(newTest.getMetadata().getLastModified());
+        assertThat(new String(newTest.getPayload().getInput().readAllBytes())).isEqualTo("testLocalBlobShadowsUpstreamBlob");
+
+        for(StorageMetadata sm : newBlobList){
+            if(sm.getName().equals(blobName)){
+                assertThat(sm.getLastModified()).isNotEqualTo(originalTest.getMetadata().getLastModified());
+                assertThat(sm.getLastModified()).isEqualTo(newTest.getMetadata().getLastModified());
+            }
+        }
     }
 
     @Test
