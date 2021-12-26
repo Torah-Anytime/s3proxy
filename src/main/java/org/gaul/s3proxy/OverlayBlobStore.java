@@ -25,7 +25,6 @@ import org.jclouds.blobstore.options.*;
 import org.jclouds.domain.Location;
 import org.jclouds.filesystem.reference.FilesystemConstants;
 import org.jclouds.io.Payload;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -72,7 +71,7 @@ final class OverlayBlobStore extends ForwardingObject implements BlobStore {
         return this.filesystemBlobStore;
     }
 
-    public static @NotNull BlobStore newOverlayBlobStore(BlobStore blobStore, String overlayPath, String maskSuffix) {
+    public static BlobStore newOverlayBlobStore(BlobStore blobStore, String overlayPath, String maskSuffix) {
         return new OverlayBlobStore(blobStore, overlayPath, maskSuffix);
     }
 
@@ -107,12 +106,14 @@ final class OverlayBlobStore extends ForwardingObject implements BlobStore {
     @Override
     public boolean createContainerInLocation(Location location,
                                              String container) {
+        ensureLocalContainerExistsIfUpstreamDoes(container);
         return delegate().createContainerInLocation(location, container);
     }
 
     @Override
     public boolean createContainerInLocation(Location location,
                                              String container, CreateContainerOptions options) {
+        ensureLocalContainerExistsIfUpstreamDoes(container);
         // TODO: Simulate error when creating a bucket that already exists
         return delegate().createContainerInLocation(location, container);
     }
@@ -160,12 +161,12 @@ final class OverlayBlobStore extends ForwardingObject implements BlobStore {
 
     @Override
     public void clearContainer(String container) {
-        delegate().clearContainer(container);
+        throw new NotImplementedException();
     }
 
     @Override
     public void clearContainer(String container, ListContainerOptions options) {
-        delegate().clearContainer(container, options);
+        throw new NotImplementedException();
     }
 
     @Override
@@ -180,22 +181,26 @@ final class OverlayBlobStore extends ForwardingObject implements BlobStore {
 
     @Override
     public boolean directoryExists(String container, String directory) {
-        return delegate().directoryExists(container, directory);
+        throw new NotImplementedException();
     }
 
     @Override
     public void createDirectory(String container, String directory) {
-        delegate().createDirectory(container, directory);
+        throw new NotImplementedException();
     }
 
     @Override
     public void deleteDirectory(String container, String directory) {
-        delegate().deleteDirectory(container, directory);
+        throw new NotImplementedException();
     }
 
     @Override
     public boolean blobExists(String container, String name) {
-        return delegate().blobExists(container, name);
+        if(delegate().blobExists(container, name)){
+            return true;
+        } else {
+            return delegateUpstream().blobExists(container, name);
+        }
     }
 
     @Override
@@ -362,6 +367,7 @@ final class OverlayBlobStore extends ForwardingObject implements BlobStore {
 
     @Override
     public void downloadBlob(String container, String name, File destination, ExecutorService executor) {
+
         ensureBlobIsLocal(container, name);
         delegate().downloadBlob(container, name, destination, executor);
     }
@@ -445,6 +451,9 @@ final class OverlayBlobStore extends ForwardingObject implements BlobStore {
     // Returns false if the file did not exist
     // TODO: Use exceptions instead of Boolean
     private boolean ensureBlobIsLocal(String container, String name){
+        if( ! ensureLocalContainerExistsIfUpstreamDoes(container)) {
+            return false;
+        }
         if(isBlobLocal(container, name)){
             logger.debug("[ensureBlobIsLocal]: Blob " + container + "/" + name + " is locally available");
             return true;
