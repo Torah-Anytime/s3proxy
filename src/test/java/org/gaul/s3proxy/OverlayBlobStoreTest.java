@@ -24,11 +24,13 @@ import org.jclouds.ContextBuilder;
 import org.jclouds.blobstore.BlobStore;
 import org.jclouds.blobstore.BlobStoreContext;
 import org.jclouds.blobstore.BlobStoreContext;
+import org.jclouds.blobstore.domain.Blob;
 import org.jclouds.blobstore.domain.BlobBuilder;
 import org.jclouds.blobstore.domain.PageSet;
 import org.jclouds.blobstore.domain.StorageMetadata;
 import org.jclouds.blobstore.options.PutOptions;
 import org.jclouds.logging.slf4j.config.SLF4JLoggingModule;
+import org.jclouds.openstack.keystone.catalog.ServiceEndpoint;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -100,11 +102,35 @@ public final class OverlayBlobStoreTest {
     }
 
     @Test
-    public void testMaskedBlobsAreNotInList() throws Exception {
+    public void testMaskedBlobList() throws Exception {
         PageSet<StorageMetadata> blobs = (PageSet<StorageMetadata>)overlayBlobStore.list(containerName);
         for(StorageMetadata sm : blobs){
             assertThat(sm.getName()).isNotEqualTo(maskedBlobName);
         }
+    }
+
+    @Test
+    public void testDeleteBlob() throws Exception {
+        overlayBlobStore.removeBlob(containerName, blobName);
+        PageSet<StorageMetadata> blobs = (PageSet<StorageMetadata>)overlayBlobStore.list(containerName);
+        for(StorageMetadata sm : blobs){
+            assertThat(sm.getName()).isNotEqualTo(blobName);
+        }
+        Blob test = overlayBlobStore.getBlob(containerName, blobName);
+        assertThat(test).isNull();
+    }
+
+    @Test
+    public void testMaskedBlobGetBlob() throws Exception {
+        Blob test = overlayBlobStore.getBlob(containerName, maskedBlobName);
+        assertThat(test).isNull();
+    }
+
+    @Test
+    public void testUnmaskedBlobGetBlob() throws Exception {
+        Blob test = overlayBlobStore.getBlob(containerName, blobName);
+        assertThat(test).isNotNull();
+        assertThat(test.getMetadata().getName()).isEqualTo(blobName);
     }
 
     @Test

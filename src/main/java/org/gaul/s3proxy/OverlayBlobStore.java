@@ -257,7 +257,8 @@ final class OverlayBlobStore extends ForwardingObject implements BlobStore {
     @Override
     public Blob getBlob(String containerName, String blobName) {
         ensureBlobIsLocal(containerName, blobName);
-        return getBlobMasked(containerName, blobName, null);
+        Blob b = getBlobMasked(containerName, blobName, null);
+        return b;
     }
 
     @Override
@@ -465,12 +466,13 @@ final class OverlayBlobStore extends ForwardingObject implements BlobStore {
 
         // TODO: Look at a more performant way of doing this
         // Build a list of masked blobs and remove the maskfiles themselves
-        for(StorageMetadata sm : localSet){
+        for (Iterator<StorageMetadata> iterator = localSet.iterator(); iterator.hasNext();) {
+            StorageMetadata sm = iterator.next();
             if(isBlobMaskFile(sm)){
                 String maskedFile = getMaskedBlobFileName(sm.getName());
                 logger.info("[mergeAndFilterList]: Blob " + sm.getName() + " is a maskfile for " + maskedFile);
                 maskedBlobNames.add(maskedFile);
-                localSet.remove(sm);
+                iterator.remove();
             }
         }
         localSet.addAll(upstreamSet);
