@@ -103,7 +103,7 @@ public final class OverlayBlobStoreTest {
 
     @Test
     public void testMaskedBlobList() throws Exception {
-        PageSet<StorageMetadata> blobs = (PageSet<StorageMetadata>)overlayBlobStore.list(containerName);
+        PageSet<? extends StorageMetadata> blobs = overlayBlobStore.list(containerName);
         for(StorageMetadata sm : blobs){
             assertThat(sm.getName()).isNotEqualTo(maskedBlobName);
         }
@@ -112,7 +112,7 @@ public final class OverlayBlobStoreTest {
     @Test
     public void testDeleteBlob() throws Exception {
         overlayBlobStore.removeBlob(containerName, blobName);
-        PageSet<StorageMetadata> blobs = (PageSet<StorageMetadata>)overlayBlobStore.list(containerName);
+        PageSet<? extends StorageMetadata> blobs = overlayBlobStore.list(containerName);
         for(StorageMetadata sm : blobs){
             assertThat(sm.getName()).isNotEqualTo(blobName);
         }

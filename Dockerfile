@@ -2,13 +2,14 @@
 FROM maven:3.6.3-jdk-11-slim as s3proxy-builder
 LABEL maintainer="Andrew Gaul <andrew@gaul.org>"
 
-WORKDIR /opt/s3proxy
 COPY . /opt/s3proxy/
-
-RUN mvn package -DskipTests
+RUN mkdir /home/.m2
+WORKDIR /opt/s3proxy
+USER root
+RUN  mvn package -DskipTests
 
 # Multistage - Image
-FROM openjdk:11-jre-slim
+FROM adoptopenjdk/openjdk11:jdk-11.0.11_9-alpine
 LABEL maintainer="Andrew Gaul <andrew@gaul.org>"
 
 WORKDIR /opt/s3proxy
@@ -31,6 +32,9 @@ ENV \
     S3PROXY_CORS_ALLOW_METHODS="" \
     S3PROXY_CORS_ALLOW_HEADERS="" \
     S3PROXY_IGNORE_UNKNOWN_HEADERS="false" \
+    S3PROXY_OVERLAY_BLOBSTORE="false" \
+    S3PROXY_OVERLAY_BLOBSTORE_MASK_SUFFIX="__deleted" \
+    S3PROXY_OVERLAY_BLOBSTORE_PATH="/tmp" \
     JCLOUDS_PROVIDER="filesystem" \
     JCLOUDS_ENDPOINT="" \
     JCLOUDS_REGION="" \

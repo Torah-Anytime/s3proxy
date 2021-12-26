@@ -27,7 +27,6 @@ import org.jclouds.filesystem.reference.FilesystemConstants;
 import org.jclouds.io.Payload;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.File;
 import java.io.InputStream;
@@ -161,37 +160,37 @@ final class OverlayBlobStore extends ForwardingObject implements BlobStore {
 
     @Override
     public void clearContainer(String container) {
-        throw new NotImplementedException();
+        throw new RuntimeException(new S3Exception(S3ErrorCode.INVALID_REQUEST, "Not Implemented Yet" ));
     }
 
     @Override
     public void clearContainer(String container, ListContainerOptions options) {
-        throw new NotImplementedException();
+        throw new RuntimeException(new S3Exception(S3ErrorCode.INVALID_REQUEST, "Not Implemented Yet" ));
     }
 
     @Override
     public void deleteContainer(String container) {
-        throw new NotImplementedException();
+        throw new RuntimeException(new S3Exception(S3ErrorCode.INVALID_REQUEST, "Not Implemented Yet" ));
     }
 
     @Override
     public boolean deleteContainerIfEmpty(String container) {
-        throw new NotImplementedException();
+        throw new RuntimeException(new S3Exception(S3ErrorCode.INVALID_REQUEST, "Not Implemented Yet" ));
     }
 
     @Override
     public boolean directoryExists(String container, String directory) {
-        throw new NotImplementedException();
+        throw new RuntimeException(new S3Exception(S3ErrorCode.INVALID_REQUEST, "Not Implemented Yet" ));
     }
 
     @Override
     public void createDirectory(String container, String directory) {
-        throw new NotImplementedException();
+        throw new RuntimeException(new S3Exception(S3ErrorCode.INVALID_REQUEST, "Not Implemented Yet" ));
     }
 
     @Override
     public void deleteDirectory(String container, String directory) {
-        throw new NotImplementedException();
+        throw new RuntimeException(new S3Exception(S3ErrorCode.INVALID_REQUEST, "Not Implemented Yet" ));
     }
 
     @Override
@@ -227,7 +226,7 @@ final class OverlayBlobStore extends ForwardingObject implements BlobStore {
     @Override
     public String copyBlob(String fromContainer, String fromName, String toContainer, String toName,
                            CopyOptions options) {
-        throw new NotImplementedException();
+        throw new RuntimeException(new S3Exception(S3ErrorCode.INVALID_REQUEST, "Not Implemented Yet" ));
     }
 
     @Override
@@ -293,13 +292,13 @@ final class OverlayBlobStore extends ForwardingObject implements BlobStore {
 
     @Override
     public BlobAccess getBlobAccess(String container, String name) {
-        throw new NotImplementedException();
+        throw new RuntimeException(new S3Exception(S3ErrorCode.INVALID_REQUEST, "Not Implemented Yet" ));
     }
 
     @Override
     public void setBlobAccess(String container, String name,
                               BlobAccess access) {
-        throw new NotImplementedException();
+        throw new RuntimeException(new S3Exception(S3ErrorCode.INVALID_REQUEST, "Not Implemented Yet" ));
     }
 
     @Override
