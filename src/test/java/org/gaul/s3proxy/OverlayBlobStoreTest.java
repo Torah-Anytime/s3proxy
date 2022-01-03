@@ -91,9 +91,9 @@ public final class OverlayBlobStoreTest {
             blobStore.deleteContainer(containerName);
             context.close();
         }
-
-        FileUtils.cleanDirectory(new File("/tmp/" + containerName));
-        FileUtils.deleteDirectory(new File("/tmp/" + containerName));
+        if (((OverlayBlobStore)overlayBlobStore).localBlobStore().containerExists(containerName)){
+            ((OverlayBlobStore)overlayBlobStore).localBlobStore().deleteContainer(containerName);
+        }
     }
 
     @Test
