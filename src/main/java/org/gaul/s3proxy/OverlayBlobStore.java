@@ -457,7 +457,11 @@ final class OverlayBlobStore extends ForwardingObject implements BlobStore {
 
     // Returns true if the specified Blob is available in the local backend
     private boolean isBlobLocal(String container, String name){
-        return delegate().blobExists(container, name);
+        if(delegate().containerExists(container)) {
+            return delegate().blobExists(container, name);
+        } else {
+            return false;
+        }
     }
 
     private PageSet<? extends StorageMetadata> mergeAndFilterList(PageSet<StorageMetadata> localSet, PageSet<StorageMetadata> upstreamSet){
