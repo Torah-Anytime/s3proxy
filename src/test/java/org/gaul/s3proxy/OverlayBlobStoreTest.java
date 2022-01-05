@@ -155,6 +155,15 @@ public final class OverlayBlobStoreTest {
     }
 
     @Test
+    public void testLocalOnlyBlob() throws Exception {
+        BlobBuilder blobBuilder = overlayBlobStore.blobBuilder("testLocalOnlyBlob").payload("testLocalOnlyBlob");
+        Blob newBlob = blobBuilder.build();
+        overlayBlobStore.putBlob(containerName, newBlob);
+        Blob newTest = overlayBlobStore.getBlob(containerName, newBlob.getMetadata().getName());
+        assertThat(new String(newTest.getPayload().getInput().readAllBytes())).isEqualTo("testLocalOnlyBlob");
+    }
+
+    @Test
     public void testPutBlob() throws Exception {
         BlobBuilder blobBuilder = overlayBlobStore.blobBuilder("testPutBlob").payload("Test");
         overlayBlobStore.putBlob(containerName, blobBuilder.build());
