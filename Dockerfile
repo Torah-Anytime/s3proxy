@@ -3,13 +3,11 @@ FROM maven:3.6.3-jdk-11-slim as s3proxy-builder
 LABEL maintainer="Andrew Gaul <andrew@gaul.org>"
 
 COPY . /opt/s3proxy/
-RUN mkdir /home/.m2
 WORKDIR /opt/s3proxy
-USER root
 RUN  mvn package -DskipTests
 
 # Multistage - Image
-FROM adoptopenjdk/openjdk11:jdk-11.0.11_9-alpine
+FROM openjdk:11-jre-slim
 LABEL maintainer="Andrew Gaul <andrew@gaul.org>"
 
 WORKDIR /opt/s3proxy
