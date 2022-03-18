@@ -1,0 +1,12 @@
+# Modify if you use a different port...
+ports:
+- port: 9081
+tasks:
+  - init: mvn install -DskipTests=false
+  # Modify if you use a different local overlay folder
+  - init: mkdir /data && chmod 777 /data 
+vscode:
+  extensions:
+    - redhat.java
+    - vscjava.vscode-java-debug
+    - vscjava.vscode-maven

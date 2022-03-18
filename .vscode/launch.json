@@ -1,0 +1,214 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch s3Proxy",
+            "request": "launch",
+            "mainClass": "org.gaul.s3proxy.Main",
+            "projectName": "s3proxy",
+            "vmArgs": [
+                "-Djclouds.provider=${input:jclouds.provider}",
+                "-Djclouds.identity=${input:jclouds.identity}",
+                "-Djclouds.credential=${input:jclouds.credential}",
+                "-Djclouds.endpoint=${input:jclouds.endpoint}",
+                "-Djclouds.region=${input:jclouds.region}",
+                "-Djclouds.regions=${input:jclouds.regions}",
+                "-Djclouds.keystone.version=${input:jclouds.keystone.version}",
+                "-Djclouds.keystone.scope=${input:jclouds.keystone.scope}",
+                "-Djclouds.keystone.project-domain-name=${input:jclouds.keystone.project-domain-name}",
+                "-Djclouds.filesystem.basedir=${input:jclouds.filesystem.basedir}",
+                "-DLOG_LEVEL=${input:LOG_LEVEL}",
+                "-Ds3proxy.endpoint=${input:s3proxy.endpoint}",
+                "-Ds3proxy.virtual-host=${input:s3proxy.virtual-host}",
+                "-Ds3proxy.authorization=${input:s3proxy.authorization}",
+                "-Ds3proxy.identity=${input:s3proxy.identity}",
+                "-Ds3proxy.credential=${input:s3proxy.credential}",
+                "-Ds3proxy.cors-allow-all=${input:s3proxy.cors-allow-all}",
+                "-Ds3proxy.cors-allow-origins=${input:s3proxy.cors-allow-origins}",
+                "-Ds3proxy.cors-allow-methods=${input:s3proxy.cors-allow-methods}",
+                "-Ds3proxy.cors-allow-headers=${input:s3proxy.cors-allow-headers}",
+                "-Ds3proxy.ignore-unknown-headers=${input:s3proxy.ignore-unknown-headers}",
+                "-Ds3proxy.overlay-blobstore=${input:s3proxy.overlay-blobstore}",
+                "-Ds3proxy.overlay-blobstore.mask-suffix=${input:s3proxy.overlay-blobstore.mask-suffix}",
+                "-Ds3proxy.overlay-blobstore.path=${input:s3proxy.overlay-blobstore.path}"
+
+            ],
+            "args": "--properties /dev/null"
+        },
+        
+    ],
+    "inputs": [
+        {
+            "id": "jclouds.provider",
+            "type": "promptString",
+            "description": "Enter value for jclouds.provider",
+            "default": "s3",
+            "password": false
+        },
+        {
+            "id": "jclouds.identity",
+            "type": "promptString",
+            "description": "Enter value for jclouds.identity",
+            "default": "",
+            "password": true
+        },
+        {
+            "id": "jclouds.credential",
+            "type": "promptString",
+            "description": "Enter value for jclouds.credential",
+            "default": "",
+            "password": true
+        },
+        {
+            "id": "jclouds.endpoint",
+            "type": "promptString",
+            "description": "Enter value for jclouds.endpoint",
+            "default": "https://nyc3.digitaloceanspaces.com",
+            "password": false
+        },
+        {
+            "id": "jclouds.region",
+            "type": "promptString",
+            "description": "Enter value for jclouds.region",
+            "default": "",
+            "password": false
+        },
+        {
+            "id": "jclouds.regions",
+            "type": "promptString",
+            "description": "Enter value for jclouds.regions",
+            "default": "us-east-1",
+            "password": false
+        },
+        {
+            "id": "jclouds.keystone.version",
+            "type": "promptString",
+            "description": "Enter value for jclouds.keystone.version",
+            "default": "",
+            "password": false
+        },
+        {
+            "id": "jclouds.keystone.scope",
+            "type": "promptString",
+            "description": "Enter value for jclouds.keystone.scope",
+            "default": "",
+            "password": false
+        },
+        {
+            "id": "jclouds.keystone.project-domain-name",
+            "type": "promptString",
+            "description": "Enter value for jclouds.keystone.project-domain-name",
+            "default": "",
+            "password": false
+        },
+        {
+            "id": "jclouds.filesystem.basedir",
+            "type": "promptString",
+            "description": "Enter value for jclouds.filesystem.basedir",
+            "default": "/data",
+            "password": false
+        },
+        {
+            "id": "LOG_LEVEL",
+            "type": "promptString",
+            "description": "Enter value for LOG_LEVEL",
+            "default": "info",
+            "password": false
+        },
+        {
+            "id": "s3proxy.endpoint",
+            "type": "promptString",
+            "description": "Enter value for s3proxy.endpoint",
+            "default": "http://0.0.0.0:9081",
+            "password": false
+        },
+        {
+            "id": "s3proxy.virtual-host",
+            "type": "promptString",
+            "description": "Enter value for s3proxy.virtual-host",
+            "default": "",
+            "password": false
+        },
+        {
+            "id": "s3proxy.authorization",
+            "type": "promptString",
+            "description": "Enter value for s3proxy.authorization",
+            "default": "aws-v2-or-v4",
+            "password": false
+        },
+        {
+            "id": "s3proxy.identity",
+            "type": "promptString",
+            "description": "Enter value for s3proxy.identity",
+            "default": "admin",
+            "password": false
+        },
+        {
+            "id": "s3proxy.credential",
+            "type": "promptString",
+            "description": "Enter value for s3proxy.credential",
+            "default": "4ver",
+            "password": false
+        },
+        {
+            "id": "s3proxy.cors-allow-all",
+            "type": "promptString",
+            "description": "Enter value for s3proxy.cors-allow-all",
+            "default": "false",
+            "password": false
+        },
+        {
+            "id": "s3proxy.cors-allow-origins",
+            "type": "promptString",
+            "description": "Enter value for s3proxy.cors-allow-origins",
+            "default": "",
+            "password": false
+        },
+        {
+            "id": "s3proxy.cors-allow-methods",
+            "type": "promptString",
+            "description": "Enter value for s3proxy.cors-allow-methods",
+            "default": "",
+            "password": false
+        },
+        {
+            "id": "s3proxy.cors-allow-headers",
+            "type": "promptString",
+            "description": "Enter value for s3proxy.cors-allow-headers",
+            "default": "",
+            "password": false
+        },
+        {
+            "id": "s3proxy.ignore-unknown-headers",
+            "type": "promptString",
+            "description": "Enter value for s3proxy.ignore-unknown-headers",
+            "default": "false",
+            "password": false
+        },
+        {
+            "id": "s3proxy.overlay-blobstore",
+            "type": "promptString",
+            "description": "Enter value for s3proxy.overlay-blobstore",
+            "default": "true",
+            "password": false
+        },
+        {
+            "id": "s3proxy.overlay-blobstore.mask-suffix",
+            "type": "promptString",
+            "description": "Enter value for s3proxy.overlay-blobstore.mask-suffix",
+            "default": "__deleted",
+            "password": false
+        },
+        {
+            "id": "s3proxy.overlay-blobstore.path",
+            "type": "promptString",
+            "description": "Enter value for s3proxy.overlay-blobstore.path (requires existence & 777 permissions)",
+            "default": "/data",
+            "password": false
+        }
+    ]
+}
