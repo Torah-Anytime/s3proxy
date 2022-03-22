@@ -207,7 +207,7 @@
             "id": "s3proxy.overlay-blobstore.path",
             "type": "promptString",
             "description": "Enter value for s3proxy.overlay-blobstore.path (requires existence & 777 permissions)",
-            "default": "/data",
+            "default": "/tmp/data",
             "password": false
         }
     ]

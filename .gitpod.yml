@@ -1,10 +1,11 @@
 # Modify if you use a different port...
 ports:
 - port: 9081
+  visibility: public
 tasks:
   - init: mvn install -DskipTests=false
   # Modify if you use a different local overlay folder
-  - init: mkdir /data && chmod 777 /data 
+  - init: mkdir /tmp/data && chmod 777 /tmp/data 
 vscode:
   extensions:
     - redhat.java
