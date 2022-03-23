@@ -32,6 +32,7 @@
                 "-Ds3proxy.cors-allow-methods=${input:s3proxy.cors-allow-methods}",
                 "-Ds3proxy.cors-allow-headers=${input:s3proxy.cors-allow-headers}",
                 "-Ds3proxy.ignore-unknown-headers=${input:s3proxy.ignore-unknown-headers}",
+                "-Ds3proxy.maximum-timeskew=${input:s3proxy.maximum-timeskew}",
                 "-Ds3proxy.overlay-blobstore=${input:s3proxy.overlay-blobstore}",
                 "-Ds3proxy.overlay-blobstore.mask-suffix=${input:s3proxy.overlay-blobstore.mask-suffix}",
                 "-Ds3proxy.overlay-blobstore.path=${input:s3proxy.overlay-blobstore.path}"
@@ -109,7 +110,7 @@
             "id": "jclouds.filesystem.basedir",
             "type": "promptString",
             "description": "Enter value for jclouds.filesystem.basedir",
-            "default": "/data",
+            "default": "/tmp/data",
             "password": false
         },
         {
@@ -180,6 +181,13 @@
             "type": "promptString",
             "description": "Enter value for s3proxy.cors-allow-headers",
             "default": "",
+            "password": false
+        },
+        {
+            "id": "s3proxy.maximum-timeskew",
+            "type": "promptString",
+            "description": "Enter value for s3proxy.maximum-timeskew",
+            "default": "900",
             "password": false
         },
         {
