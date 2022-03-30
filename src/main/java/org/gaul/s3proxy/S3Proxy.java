@@ -230,14 +230,14 @@ public final class S3Proxy {
 
             String maxSinglePartObjectSize = properties.getProperty(
                     S3ProxyConstants.PROPERTY_MAX_SINGLE_PART_OBJECT_SIZE);
-            if (maxSinglePartObjectSize != null) {
+            if (!Strings.isNullOrEmpty(maxSinglePartObjectSize)) {
                 builder.maxSinglePartObjectSize(Long.parseLong(
                         maxSinglePartObjectSize));
             }
 
             String v4MaxNonChunkedRequestSize = properties.getProperty(
                     S3ProxyConstants.PROPERTY_V4_MAX_NON_CHUNKED_REQUEST_SIZE);
-            if (v4MaxNonChunkedRequestSize != null) {
+            if (!Strings.isNullOrEmpty(v4MaxNonChunkedRequestSize)) {
                 builder.v4MaxNonChunkedRequestSize(Long.parseLong(
                         v4MaxNonChunkedRequestSize));
             }
