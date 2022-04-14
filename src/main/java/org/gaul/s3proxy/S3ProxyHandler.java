@@ -69,6 +69,7 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Multimap;
 import com.google.common.collect.Streams;
 import com.google.common.escape.Escaper;
 import com.google.common.hash.HashCode;
@@ -1736,8 +1737,7 @@ public class S3ProxyHandler {
 
         addMetadataToResponse(request, response, blob.getMetadata());
         // TODO: handles only a single range due to jclouds limitations
-        Collection<String> contentRanges =
-                blob.getAllHeaders().get(HttpHeaders.CONTENT_RANGE);
+        Collection<String> contentRanges = multiMapCaseInsensitiveGet(blob.getAllHeaders(), HttpHeaders.CONTENT_RANGE);
         if (!contentRanges.isEmpty()) {
             response.addHeader(HttpHeaders.CONTENT_RANGE,
                     contentRanges.iterator().next());
@@ -3125,5 +3125,17 @@ public class S3ProxyHandler {
     private static boolean constantTimeEquals(String x, String y) {
         return MessageDigest.isEqual(x.getBytes(StandardCharsets.UTF_8),
                 y.getBytes(StandardCharsets.UTF_8));
+    }
+
+    private static Collection<String> multiMapCaseInsensitiveGet(Multimap<String, String> mMap, String key) {
+        Collection<String> result = new ArrayList<String>();
+
+        for (String iterKey: mMap.keySet()) {
+            if (iterKey.equalsIgnoreCase(key)) {
+                result.addAll(mMap.get(iterKey));
+            }
+        }
+
+        return result;
     }
 }
