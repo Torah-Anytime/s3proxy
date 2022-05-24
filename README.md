@@ -16,7 +16,7 @@ and *proxies* requests, enabling several use cases:
 
 ## Usage with Docker
 
-[Docker Hub](https://hub.docker.com/r/andrewgaul/s3proxy/) hosts a Docker image
+[Docker Hub](https://hub.docker.com/r/mmezei/s3proxy) hosts a Docker image
 and has instructions on how to run it.
 
 ## Usage without Docker
